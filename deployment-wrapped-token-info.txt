@@ -1,0 +1,2 @@
+Контракт развернут по адресу: 0xf7bfcf73fd2ae91881df2aa73526afa5daf055fd, Tx Hash: 0x57e283318a89496dc1d7313fc99dd8fb71dd629a195eb02613e279f23e87dcea, Date: 2025-05-04T16:59:46.720Z 
+Контракт развернут по адресу: 0x659c0a2509e56f8dde377ff4ef233e0d84c61a61, Tx Hash: 0xa4630e163e7e4c512fd48f41cbcb1ab531ac9ad718f684cfda4afd1767677988, Date: 2025-05-04T17:44:27.742Z 

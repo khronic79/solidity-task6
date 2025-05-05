@@ -1,0 +1,16 @@
+{
+  "name": "hardhat-project",
+  "scripts": {
+    "bt:verify": "npx hardhat verify --network bnbTestnet 0xe9091b5d2779534c5a049c324a1a0ba7c06c9453",
+    "wt:verify": "npx hardhat verify --network polygonAmoy 0xaE648d083064b97b724a33Cd113eE239D0692222 \"0xA09eA8079E7eda7D5dfc0d147da88511627a5cdE\" "
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.23.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.3.0",
+    "dotenv": "^16.5.0",
+    "web3": "^4.16.0"
+  }
+}
