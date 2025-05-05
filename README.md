@@ -1,13 +1,50 @@
-# Sample Hardhat Project
+# Задание 6. Проект по 6 модулю
+## Цель:
+1. Научиться писать и модифицировать простой контракт, а также применять мосты на практике
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
 
-Try running some of the following tasks:
+## Описание/Пошаговая инструкция выполнения домашнего задания:
+1. Напишите простой контракт, который будет успешно работать в Binance Smart Chain (BSC), загрузите его на тестовую сеть.
+2. Модифицируйте этот контракт так, чтобы он мог работать в сети Polygon (Matic), и также загрузите его на соответствующую тестовую сеть.
+3. Используйте мосты между блокчейнами, чтобы перевести токены из одной сети в другую. Это должно быть реализовано в виде кода на JavaScript с использованием Web3.js.
 
+## Что сделано
+1. Общая идея системы - это реализовать логику моста между двумя контрактами [BaseTokenInBNB.sol](./contracts/BaseTokenInBNB.sol) (для размещения в сети BNB) и [WrappedTokenInPolygon.sol](./contracts/WrappedTokenInPolygon.sol) (для размещения в сети Polygon), где:
+    - BaseTokenInBNB.sol - это контракт оригинально токена в BNB.
+    - WrappedTokenInPolygon.sol - это обертка, управляемая мостом в сети Polygon.
+
+    При этом отслеживание работы контрактов и управления транзитом токенов между сетями осуществляется отдельным скриптом на web3 js [bridgeWatcher.ts](./scripts/bridgeWatcher.ts).
+2. Логика скрипта
+    - Чтобы переместить токены из одной сети в другую пользователю необходимо сделат transfer своих токенов на адрес моста.
+    - Скрипт отслеживает события Transfer и если адресатом является мост, запускаются событийные процессы в скрипте. Логика работы этих процессов отрисована на схеме логики скрипта
+
+    ![](Схема%20бриджа.drawio.png)
+3. Контракты оттестированы тестами
+    - [BaseTokenInBNB.sol](./test/BaseTokenInBNB.ts)
+    - [WrappedTokenInPolygon.sol](./test/WrappedTokenInPolygon.ts)
+4. Контракты развернуты и верифицированы в соответующих сетях:
+    - [BaseTokenInBNB.sol](https://testnet.bscscan.com/address/0xe9091b5d2779534c5a049c324a1a0ba7c06c9453)
+    - [WrappedTokenInPolygon.sol](https://amoy.polygonscan.com/address/0xaE648d083064b97b724a33Cd113eE239D0692222)
+
+## Как запустить тесты и скрипты на локальной машине
+Для запуска необходимо, чтобы на локальной машине было установлен программное обеспечение Node js.
+1. Необходимо склонировать репозиторий:
 ```shell
-npx hardhat help
+git clone https://github.com/khronic79/solidity-task6.git
+```
+или
+```shell
+git clone git@github.com:khronic79/solidity-task6.git
+```
+2. Установить зависимости для Node js, например:
+```shell
+npn init
+```
+3. Запустить тест:
+```shell
 npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.ts
+```
+4. Запуск скрипта моста
+```shell
+npx hardhat run ./scripts/bridgeWatcher.ts
 ```

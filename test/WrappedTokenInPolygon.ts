@@ -13,26 +13,26 @@ describe("WrappedTokenInPolygon", function () {
     return { token, owner, bridge, otherAccount };
   }
 
-  describe("Deployment", function () {
-    it("Should set the correct name and symbol", async function () {
+  describe("Деплой", function () {
+    it("Устанавливает правильные матаданные", async function () {
       const { token } = await loadFixture(deployFixture);
       expect(await token.name()).to.equal("WrappedTokenInPolygon");
       expect(await token.symbol()).to.equal("WTIP");
     });
 
-    it("Should set the right owner", async function () {
+    it("Устанавливает владельца", async function () {
       const { token, owner } = await loadFixture(deployFixture);
       expect(await token.owner()).to.equal(owner.address);
     });
 
-    it("Should set the correct bridge address", async function () {
+    it("Устанавливает адрес моста", async function () {
       const { token, bridge } = await loadFixture(deployFixture);
       expect(await token.getBridge()).to.equal(bridge.address);
     });
   });
 
-  describe("Minting", function () {
-    it("Should allow bridge to mint tokens", async function () {
+  describe("Минтинг", function () {
+    it("Позволяет мосту минтить токены", async function () {
       const { token, bridge, otherAccount } = await loadFixture(deployFixture);
       const amount = ethers.parseEther("100");
 
@@ -43,7 +43,7 @@ describe("WrappedTokenInPolygon", function () {
       expect(await token.balanceOf(otherAccount.address)).to.equal(amount);
     });
 
-    it("Should prevent non-bridge from minting", async function () {
+    it("Не дает немосту минтить токены", async function () {
       const { token, otherAccount } = await loadFixture(deployFixture);
       const amount = ethers.parseEther("100");
 
@@ -53,8 +53,8 @@ describe("WrappedTokenInPolygon", function () {
     });
   });
 
-  describe("Burning", function () {
-    it("Should allow bridge to burn tokens", async function () {
+  describe("Сжигание", function () {
+    it("Сжигание токенов только с адреса моста", async function () {
       const { token, bridge, otherAccount } = await loadFixture(deployFixture);
       const amount = ethers.parseEther("100");
     
@@ -67,7 +67,7 @@ describe("WrappedTokenInPolygon", function () {
       expect(await token.balanceOf(otherAccount.address)).to.equal(0);
     });
 
-    it("Should prevent non-bridge from burning", async function () {
+    it("Нет возможности сжечь токены с адреса немоста", async function () {
       const { token, bridge, otherAccount } = await loadFixture(deployFixture);
       const amount = ethers.parseEther("100");
 
@@ -79,8 +79,8 @@ describe("WrappedTokenInPolygon", function () {
     });
   });
 
-  describe("Bridge Management", function () {
-    it("Should allow owner to change bridge", async function () {
+  describe("Управление адресом моста", function () {
+    it("Позволяет владельцу менять адрес моста", async function () {
       const { token, owner, otherAccount } = await loadFixture(deployFixture);
       
       await expect(token.connect(owner).setNewBridge(otherAccount.address))
@@ -90,7 +90,7 @@ describe("WrappedTokenInPolygon", function () {
       expect(await token.getBridge()).to.equal(otherAccount.address);
     });
 
-    it("Should prevent non-owners from changing bridge", async function () {
+    it("Невладелец не может менять адрес моста", async function () {
       const { token, otherAccount } = await loadFixture(deployFixture);
       
       await expect(
